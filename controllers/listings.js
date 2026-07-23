@@ -40,16 +40,19 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
+    if (!req.body?.listing || !req.body.listing.location) {
+        throw new ExpressError(400, "Listing location is required");
+    }
+    if (!req.file) {
+        throw new ExpressError(400, "Listing image is required");
+    }
+
     let response = await geocodingClient
-    .forwardGeocode({
-    query: req.body.listing.location,
-    limit: 1,
-    })
-    .send()
-
-    // console.log(response.body.features[0].geometry);
-    // res.send("Done!!");
-
+        .forwardGeocode({
+            query: req.body.listing.location,
+            limit: 1,
+        })
+        .send();
 
     let url = req.file.path;
     let filename = req.file.filename;

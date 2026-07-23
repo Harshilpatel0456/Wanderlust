@@ -114,6 +114,11 @@ app.use((req,res,next)=>{
 //     res.send(registeredUser);
 // });
 
+// root route redirects to listings
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+
 //call for the listing.js
 app.use("/listings", listingRouter);
 //call for review.js
